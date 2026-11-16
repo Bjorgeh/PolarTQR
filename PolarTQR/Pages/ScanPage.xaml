@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:vm="clr-namespace:PolarTQR.ViewModels"
+             x:Class="PolarTQR.Pages.ScanPage"
+             x:DataType="vm:ScanViewModel"
+             Title="{Binding Label}"
+             BackgroundColor="{StaticResource Ink}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Bytt arrangement" Order="Secondary" Clicked="OnLeave" />
+        <ToolbarItem x:Name="LogoutItem" Text="Logg ut" Order="Secondary" Clicked="OnLogout" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Arrangement og teller -->
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Padding="20,12,20,14" BackgroundColor="{StaticResource Ink}">
+                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                    <Label Text="{Binding EventName}" FontSize="20" FontFamily="OpenSansSemibold"
+                           TextColor="White" LineBreakMode="TailTruncation" />
+                    <Label Text="{Binding EventTime}" FontSize="14" TextColor="{StaticResource Muted}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Spacing="0">
+                    <Label Text="{Binding CheckedIn}" FontSize="34" FontFamily="OpenSansSemibold"
+                           TextColor="White" HorizontalOptions="End" />
+                    <Label Text="{Binding CounterText}" FontSize="13" TextColor="{StaticResource Muted}" HorizontalOptions="End" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Kamera -->
+            <Grid Grid.Row="1" BackgroundColor="Black">
+                <zxing:CameraBarcodeReaderView x:Name="Camera" BarcodesDetected="OnBarcodesDetected"
+                                               IsTorchOn="{Binding TorchOn}" />
+                <!-- Sikteramme -->
+                <Border WidthRequest="240" HeightRequest="240" Stroke="White" StrokeThickness="3"
+                        Opacity="0.7" BackgroundColor="Transparent" InputTransparent="True">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="24" />
+                    </Border.StrokeShape>
+                </Border>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="White"
+                                   HeightRequest="56" WidthRequest="56" />
+                <Label x:Name="CameraMessage" IsVisible="False" TextColor="White" FontSize="16"
+                       HorizontalTextAlignment="Center" VerticalOptions="Center" Margin="24" />
+            </Grid>
+
+            <!-- Knapper -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="10" Padding="16,12,16,20">
+                <Button Grid.Column="0" Text="Søk gjest" Clicked="OnSearch" Style="{StaticResource SecondaryButton}" />
+                <Button Grid.Column="1" Text="Lys" Command="{Binding ToggleTorchCommand}" Style="{StaticResource SecondaryButton}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding TorchOn}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                            <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="2" Text="Angre siste" Command="{Binding UndoCommand}"
+                        IsEnabled="{Binding CanUndo}" Style="{StaticResource SecondaryButton}" />
+            </Grid>
+        </Grid>
+
+        <!-- Resultat: grønn / gul / rød over hele skjermen, trykk for å lukke -->
+        <Grid IsVisible="{Binding OverlayVisible}" BackgroundColor="{Binding OverlayColor}" Padding="28">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding DismissOverlayCommand}" />
+            </Grid.GestureRecognizers>
+            <VerticalStackLayout VerticalOptions="Center" Spacing="12">
+                <Label Text="{Binding OverlayIcon}" FontSize="120" TextColor="White" HorizontalOptions="Center" />
+                <Label Text="{Binding OverlayTitle}" FontSize="30" FontFamily="OpenSansSemibold" TextColor="White"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="{Binding OverlayName}" FontSize="26" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="{Binding OverlayDetail}" FontSize="18" TextColor="White" Opacity="0.9"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Trykk for å skanne neste" FontSize="14" TextColor="White" Opacity="0.7"
+                       HorizontalOptions="Center" Margin="0,24,0,0" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

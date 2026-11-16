@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:PolarTQR.Models"
+             x:Class="PolarTQR.Pages.SearchPage"
+             x:DataType="ContentPage"
+             Title="Søk gjest"
+             BackgroundColor="{StaticResource Ink}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+        <Entry x:Name="Query" Grid.Row="0" Placeholder="Navn eller e-post" TextChanged="OnQueryChanged"
+               ReturnType="Search" ClearButtonVisibility="WhileEditing" FontSize="18" />
+        <Label x:Name="Hint" Grid.Row="1" TextColor="{StaticResource Muted}" FontSize="14"
+               Text="Skriv minst to bokstaver. Brukes når gjesten ikke har billetten på mobilen." />
+
+        <CollectionView x:Name="Results" Grid.Row="2" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Ticket">
+                    <Border Margin="0,4" Padding="14,12" StrokeThickness="0" BackgroundColor="{StaticResource Surface}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTicketTapped" CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="{Binding HolderName}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="White" />
+                                <Label Text="{Binding HolderEmail}" FontSize="14" TextColor="{StaticResource Muted}" />
+                                <Label Text="{Binding TicketTypeName}" FontSize="14" TextColor="{StaticResource Muted}" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1" Text="{Binding StateText}" FontSize="14" VerticalOptions="Center"
+                                   TextColor="{StaticResource Accent}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCheckedIn}" Value="True">
+                                        <Setter Property="TextColor" Value="#FBBF24" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCancelled}" Value="True">
+                                        <Setter Property="TextColor" Value="#F87171" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

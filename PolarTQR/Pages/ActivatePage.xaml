@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PolarTQR.Pages.ActivatePage"
+             x:DataType="ContentPage"
+             Title="Aktiver konto"
+             BackgroundColor="{StaticResource Ink}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="14">
+            <Label TextColor="{StaticResource Muted}" FontSize="15"
+                   Text="Skriv inn koden fra invitasjonen på e-post og velg ditt eget passord. Har du glemt passordet, kan arrangøren sende deg en ny kode." />
+
+            <Label Text="E-post" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Email" Keyboard="Email" FontSize="18" IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
+            <Label Text="Invitasjonskode" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Code" FontSize="22" FontFamily="OpenSansSemibold" Placeholder="F.eks. K7MX2QPA"
+                   IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" MaxLength="12" />
+            <Label Text="Nytt passord" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Password" IsPassword="True" FontSize="18" />
+            <Label Text="Gjenta passord" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Password2" IsPassword="True" FontSize="18" ReturnType="Go" Completed="OnActivate" />
+            <Label TextColor="{StaticResource Muted}" FontSize="13"
+                   Text="Minst 8 tegn med stor og liten bokstav, tall og et spesialtegn (f.eks. ! eller ?)." />
+
+            <Border x:Name="StatusBox" IsVisible="False" StrokeThickness="0" Padding="14,10"
+                    BackgroundColor="{StaticResource Surface}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
+            </Border>
+
+            <Button x:Name="ActivateButton" Text="Aktiver og logg inn" Clicked="OnActivate" Style="{StaticResource PrimaryButton}" />
+            <ActivityIndicator x:Name="Busy" IsRunning="False" IsVisible="False" Color="{StaticResource Accent}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

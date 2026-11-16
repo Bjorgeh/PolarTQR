@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PolarTQR.Pages.LoginPage"
+             x:DataType="ContentPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource Ink}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,64,24,24" Spacing="14">
+            <Label Text="PolarTQR" FontSize="36" FontFamily="OpenSansSemibold" TextColor="White" />
+            <Label Text="Billettkontroll for adgangsvakter" FontSize="16" TextColor="{StaticResource Muted}" Margin="0,0,0,24" />
+
+            <Label Text="E-post" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Email" Keyboard="Email" ReturnType="Next" FontSize="18"
+                   IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" Completed="OnEmailCompleted" />
+            <Label Text="Passord" TextColor="{StaticResource Muted}" FontSize="14" />
+            <Entry x:Name="Password" IsPassword="True" ReturnType="Go" FontSize="18" Completed="OnLogin" />
+
+            <Border x:Name="StatusBox" IsVisible="False" StrokeThickness="0" Padding="14,10"
+                    BackgroundColor="{StaticResource Surface}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
+            </Border>
+
+            <Button x:Name="LoginButton" Text="Logg inn" Clicked="OnLogin" Style="{StaticResource PrimaryButton}" Margin="0,8,0,0" />
+            <ActivityIndicator x:Name="Busy" IsRunning="False" IsVisible="False" Color="{StaticResource Accent}" />
+            <Button x:Name="RetryButton" Text="Prøv igjen" IsVisible="False" Clicked="OnRetry" Style="{StaticResource SecondaryButton}" />
+
+            <Button Text="Fått invitasjon eller glemt passord?" Clicked="OnActivate" Style="{StaticResource SecondaryButton}" Margin="0,16,0,0" />
+            <Button x:Name="ServerButton" Clicked="OnChangeServer" Style="{StaticResource LinkButton}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
