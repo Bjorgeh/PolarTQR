@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:PolarTQR.Models"
+             x:Class="PolarTQR.Pages.EventPickerPage"
+             x:DataType="ContentPage"
+             Title="Velg arrangement"
+             BackgroundColor="{StaticResource Ink}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logg ut" Order="Secondary" Clicked="OnLogout" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+        <Label x:Name="Hello" Grid.Row="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="White" />
+        <Border x:Name="StatusBox" Grid.Row="1" IsVisible="False" StrokeThickness="0" Padding="14,10"
+                BackgroundColor="{StaticResource Surface}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+            <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
+        </Border>
+
+        <RefreshView x:Name="Refresh" Grid.Row="2" Refreshing="OnRefresh" RefreshColor="{StaticResource Accent}">
+            <CollectionView x:Name="Events" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Margin="0,24" TextColor="{StaticResource Muted}" FontSize="16" HorizontalTextAlignment="Center"
+                           Text="Du har ingen kommende arrangementer å skanne. Kontakt arrangøren hvis det er feil. Dra ned for å oppdatere." />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:StaffEvent">
+                        <Border Margin="0,6" Padding="16,14" StrokeThickness="0" BackgroundColor="{StaticResource Surface}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEventTapped" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding EventName}" FontSize="19" FontFamily="OpenSansSemibold" TextColor="White" />
+                                    <Label Text="{Binding When}" FontSize="14" TextColor="{StaticResource Muted}" />
+                                    <Label Text="{Binding Site}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" IsVisible="{Binding IsOngoing}" BackgroundColor="#16A34A" StrokeThickness="0"
+                                        Padding="10,4" VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Label Text="Pågår" TextColor="White" FontSize="13" FontFamily="OpenSansSemibold" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>
