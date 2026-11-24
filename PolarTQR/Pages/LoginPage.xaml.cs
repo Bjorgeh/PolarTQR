@@ -94,14 +94,8 @@ public partial class LoginPage : ContentPage
         if (now - _lastLogoTap > TimeSpan.FromSeconds(2)) _logoTaps = 0;
         _lastLogoTap = now;
         _logoTaps++;
-        var left = ServerTaps - _logoTaps;
-        if (left > 0)
-        {
-            if (left <= 3) ShowStatus(left == 1 ? "1 trykk til for å velge server." : $"{left} trykk til for å velge server.");
-            return;
-        }
+        if (_logoTaps < ServerTaps) return;  // ingen hint: servervalget skal ikke synes for vanlige vakter
         _logoTaps = 0;
-        HideStatus();
         if (await _settings.PromptServerAsync(this)) UpdateServerButton();
     }
 
@@ -117,6 +111,4 @@ public partial class LoginPage : ContentPage
         StatusBox.IsVisible = true;
         Status.Text = text;
     }
-
-    void HideStatus() => StatusBox.IsVisible = false;
 }
