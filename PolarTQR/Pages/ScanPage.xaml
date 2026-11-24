@@ -23,6 +23,14 @@
                         <Label Text="{Binding EventName}" FontSize="18" FontFamily="OpenSansSemibold"
                                TextColor="White" LineBreakMode="TailTruncation" />
                         <Label Text="{Binding EventTime}" FontSize="13" TextColor="{StaticResource Muted}" />
+                        <!-- Inngangen vakten står ved (trykk for å bytte) -->
+                        <Border IsVisible="{Binding HasEntrances}" Style="{StaticResource Pill}" BackgroundColor="#0F3D35"
+                                HorizontalOptions="Start" Margin="0,6,0,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnChangeEntrance" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{Binding EntranceText}" FontSize="13" FontFamily="OpenSansSemibold" TextColor="{StaticResource Accent}" />
+                        </Border>
                     </VerticalStackLayout>
                     <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="{StaticResource SurfaceHigh}"
                             StrokeShape="RoundRectangle 14" Padding="14,6" VerticalOptions="Center">

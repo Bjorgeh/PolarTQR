@@ -31,7 +31,32 @@ public partial class ScanViewModel : ObservableObject
         EventName = session.Event.EventName;
         EventTime = session.Event.StartDate is { } start ? start.ToString("dddd d. MMM 'kl.' HH:mm") : "";
         Label = session.Label;
+        _eventKey = $"entrance_{session.Event.Id}_{session.Label}";
+        Entrances = session.Entrances;
+        // Husk inngangen vakten valgte sist for dette arrangementet
+        var saved = Preferences.Default.Get(_eventKey, 0);
+        CurrentEntrance = Entrances.FirstOrDefault(e => e.Id == saved);
         ApplyStats(session.Stats);
+    }
+
+    readonly string _eventKey;
+
+    /// <summary>Inngangene på arrangementet (tom = ingen innganger, alle billetter gjelder overalt).</summary>
+    public List<Entrance> Entrances { get; }
+    public bool HasEntrances => Entrances.Count > 0;
+    public bool NeedsEntrance => HasEntrances && CurrentEntrance is null;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EntranceText))]
+    [NotifyPropertyChangedFor(nameof(NeedsEntrance))]
+    private Entrance? currentEntrance;
+
+    public string EntranceText => CurrentEntrance is null ? "Velg inngang" : $"📍 {CurrentEntrance.Name}";
+
+    public void ChooseEntrance(Entrance entrance)
+    {
+        CurrentEntrance = entrance;
+        Preferences.Default.Set(_eventKey, entrance.Id);
     }
 
     public string EventName { get; }
@@ -83,11 +108,11 @@ public partial class ScanViewModel : ObservableObject
             return;
         }
 
-        await CheckInAsync(() => _api.CheckInCodeAsync(raw));
+        await CheckInAsync(() => _api.CheckInCodeAsync(raw, CurrentEntrance?.Id));
     }
 
     /// <summary>Manuell innsjekk fra søk (gjest uten billett på mobilen).</summary>
-    public Task CheckInTicketAsync(int ticketId) => CheckInAsync(() => _api.CheckInTicketAsync(ticketId));
+    public Task CheckInTicketAsync(int ticketId) => CheckInAsync(() => _api.CheckInTicketAsync(ticketId, CurrentEntrance?.Id));
 
     async Task CheckInAsync(Func<Task<ApiResult<CheckInResponse>>> call)
     {
@@ -123,6 +148,13 @@ public partial class ScanViewModel : ObservableObject
                     break;
                 case "wrong_event":
                     ShowRejected("Feil arrangement", "Billetten gjelder et annet arrangement.");
+                    break;
+                case "wrong_entrance":
+                    // Billettypen gjelder ikke ved denne inngangen: si hvor gjesten skal gå
+                    var where = r.AllowedEntrances is { Count: > 0 } a ? string.Join(", ", a) : "en annen inngang";
+                    Show(ScanOutcome.Rejected, "#DC2626", "✕", "Feil inngang", t?.HolderName ?? "",
+                        $"{t?.TicketTypeName} gjelder: {where}".Trim(), null);
+                    Feedback.Error();
                     break;
                 case "replaced":
                     // Billetten er overført til en annen og har fått ny QR-kode. Den gamle (f.eks. et

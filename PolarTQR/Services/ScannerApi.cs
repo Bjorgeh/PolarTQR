@@ -67,11 +67,11 @@ public sealed class ScannerApi
     public Task<ApiResult<TicketStats>> GetStatsAsync(CancellationToken ct = default) =>
         SendAsync<TicketStats>(HttpMethod.Get, "/blog_tickets/scanner/stats", null, Auth.ScannerKey, ct);
 
-    public Task<ApiResult<CheckInResponse>> CheckInCodeAsync(string code, CancellationToken ct = default) =>
-        SendAsync<CheckInResponse>(HttpMethod.Post, "/blog_tickets/scanner/check_in", new { code }, Auth.ScannerKey, ct, checkIn: true);
+    public Task<ApiResult<CheckInResponse>> CheckInCodeAsync(string code, int? entranceId, CancellationToken ct = default) =>
+        SendAsync<CheckInResponse>(HttpMethod.Post, "/blog_tickets/scanner/check_in", new { code, entrance_id = entranceId }, Auth.ScannerKey, ct, checkIn: true);
 
-    public Task<ApiResult<CheckInResponse>> CheckInTicketAsync(int ticketId, CancellationToken ct = default) =>
-        SendAsync<CheckInResponse>(HttpMethod.Post, "/blog_tickets/scanner/check_in", new { ticket_id = ticketId }, Auth.ScannerKey, ct, checkIn: true);
+    public Task<ApiResult<CheckInResponse>> CheckInTicketAsync(int ticketId, int? entranceId, CancellationToken ct = default) =>
+        SendAsync<CheckInResponse>(HttpMethod.Post, "/blog_tickets/scanner/check_in", new { ticket_id = ticketId, entrance_id = entranceId }, Auth.ScannerKey, ct, checkIn: true);
 
     public Task<ApiResult<UndoResponse>> UndoCheckInAsync(int ticketId, CancellationToken ct = default) =>
         SendAsync<UndoResponse>(HttpMethod.Post, "/blog_tickets/scanner/undo_check_in", new { ticket_id = ticketId }, Auth.ScannerKey, ct);

@@ -11,6 +11,14 @@ public sealed class ScannerSession
     public EventInfo Event { get; set; } = new();
     public DateTime? ExpiresAt { get; set; }
     public TicketStats Stats { get; set; } = new();
+    /// <summary>Inngangene på arrangementet. Tom liste = arrangementet har ikke innganger.</summary>
+    public List<Entrance> Entrances { get; set; } = [];
+}
+
+public sealed class Entrance
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
 }
 
 public sealed class EventInfo
@@ -50,11 +58,13 @@ public sealed class Ticket
 /// <summary>Svar fra POST /blog_tickets/scanner/check_in (både 200, 404 og 409).</summary>
 public sealed class CheckInResponse
 {
-    /// <summary>ok, not_found, replaced, wrong_event, cancelled eller already_checked_in.</summary>
+    /// <summary>ok, not_found, replaced, wrong_event, wrong_entrance, cancelled eller already_checked_in.</summary>
     public string Result { get; set; } = "";
     public string? Error { get; set; }
     /// <summary>Ved result=replaced: billetten er overført, og dette er navnet på den nye innehaveren.</summary>
     public string? CurrentHolder { get; set; }
+    /// <summary>Ved result=wrong_entrance: inngangene billetten gjelder for.</summary>
+    public List<string>? AllowedEntrances { get; set; }
     public Ticket? Ticket { get; set; }
     public TicketStats? Stats { get; set; }
 }

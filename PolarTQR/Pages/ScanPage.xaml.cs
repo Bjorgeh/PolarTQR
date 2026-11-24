@@ -34,7 +34,20 @@ public partial class ScanPage : ContentPage
         _statsTimer.Start();
 
         Camera.IsDetecting = await CameraPermission.EnsureAsync(CameraMessage);
+        if (_vm.NeedsEntrance) await ChooseEntranceAsync();
     }
+
+    /// <summary>Vakten velger hvilken inngang de står ved (bare når arrangementet har innganger).</summary>
+    async Task ChooseEntranceAsync()
+    {
+        var names = _vm.Entrances.Select(e => e.Name).ToArray();
+        var choice = await DisplayActionSheetAsync("Hvilken inngang står du ved?", _vm.NeedsEntrance ? null : "Avbryt", null, names);
+        var entrance = _vm.Entrances.FirstOrDefault(e => e.Name == choice);
+        if (entrance is not null) _vm.ChooseEntrance(entrance);
+        else if (_vm.NeedsEntrance) await ChooseEntranceAsync();  // må velge før det kan skannes
+    }
+
+    async void OnChangeEntrance(object? sender, EventArgs e) => await ChooseEntranceAsync();
 
     protected override void OnDisappearing()
     {
