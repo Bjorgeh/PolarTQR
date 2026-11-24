@@ -23,7 +23,7 @@ Slik fungerer det
 • Logg inn med vaktkontoen du har fått fra arrangøren
 • Velg arrangementet du jobber på
 • Skann QR-koden på billetten med kameraet
-• Grønt betyr sluppet inn, rødt betyr stopp – med navn og billettype
+• Grønt betyr sluppet inn, rødt betyr stopp – med navn og billettype. Resultatet blir stående til du trykker for å skanne neste
 • Telleren viser hvor mange som er sjekket inn
 
 Nyttig i døra
@@ -47,6 +47,7 @@ Ticket check-in for event staff: scan QR tickets and admit guests.
 **Full description**:
 ```
 PolarTQR is the ticket check-in app for events that sell tickets through PolarCode.
+The app is in Norwegian.
 
 The organiser invites door staff from the PolarCode portal. Staff sign in, choose the event and scan the QR code on each ticket at the door. The app shows instantly whether the ticket is valid, already used or belongs to another event.
 
@@ -54,7 +55,7 @@ How it works
 • Sign in with the staff account you received from the organiser
 • Choose the event you are working at
 • Scan the ticket's QR code with the camera
-• Green means admitted, red means stop – with name and ticket type
+• Green means admitted, red means stop – with name and ticket type. The result stays on screen until you tap to scan the next ticket
 • The counter shows how many guests are checked in
 
 Handy at the door
