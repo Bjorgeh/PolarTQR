@@ -108,14 +108,14 @@ public partial class ScanViewModel : ObservableObject
             {
                 case "ok":
                     LastCheckedIn = t;
-                    Show(ScanOutcome.Ok, "#16A34A", "✓", "Velkommen!", t?.HolderName ?? "", t?.TicketTypeName ?? "", TimeSpan.FromSeconds(1.6));
+                    Show(ScanOutcome.Ok, "#16A34A", "✓", "Velkommen!", t?.HolderName ?? "", t?.TicketTypeName ?? "", null);
                     Feedback.Success();
                     break;
                 case "already_checked_in":
                     var when = t?.CheckedInAt is { } at ? $"kl. {at:HH:mm}" : "";
                     var by = string.IsNullOrEmpty(t?.CheckedInBy) ? "" : $" ved {t!.CheckedInBy}";
                     Show(ScanOutcome.AlreadyIn, "#D97706", "!", "Allerede sjekket inn", t?.HolderName ?? "",
-                        $"{t?.TicketTypeName} · inne {when}{by}".Trim(' ', '·'), TimeSpan.FromSeconds(5));
+                        $"{t?.TicketTypeName} · inne {when}{by}".Trim(' ', '·'), null);
                     Feedback.Warning();
                     break;
                 case "cancelled":
@@ -190,12 +190,12 @@ public partial class ScanViewModel : ObservableObject
             case ApiStatus.Offline:
                 _lastCode = null; // la dørvakten skanne samme billett igjen med en gang
                 Show(ScanOutcome.Offline, "#334155", "⚠", "Ingen kontakt med serveren",
-                    "Billetten er IKKE sjekket inn.", "Sjekk nettet og skann på nytt.", TimeSpan.FromSeconds(6));
+                    "Billetten er IKKE sjekket inn.", "Sjekk nettet og skann på nytt.", null);
                 Feedback.Error();
                 break;
             default:
                 _lastCode = null;
-                Show(ScanOutcome.Offline, "#334155", "⚠", "Serverfeil", "Billetten er IKKE sjekket inn.", message ?? "", TimeSpan.FromSeconds(6));
+                Show(ScanOutcome.Offline, "#334155", "⚠", "Serverfeil", "Billetten er IKKE sjekket inn.", message ?? "", null);
                 Feedback.Error();
                 break;
         }
@@ -203,11 +203,13 @@ public partial class ScanViewModel : ObservableObject
 
     void ShowRejected(string title, string text, bool name = false)
     {
-        Show(ScanOutcome.Rejected, "#DC2626", "✕", title, name ? text : "", name ? "" : text, TimeSpan.FromSeconds(5));
+        Show(ScanOutcome.Rejected, "#DC2626", "✕", title, name ? text : "", name ? "" : text, null);
         Feedback.Error();
     }
 
-    void Show(ScanOutcome outcome, string color, string icon, string title, string holder, string detail, TimeSpan duration)
+    /// <summary>Viser resultatet. duration = null: blir stående til vakten trykker (alle skanneresultater),
+    /// så navnet rekker å bli lest og ingen ny billett skannes ved et uhell.</summary>
+    void Show(ScanOutcome outcome, string color, string icon, string title, string holder, string detail, TimeSpan? duration)
     {
         _overlayCts?.Cancel();
         var cts = _overlayCts = new CancellationTokenSource();
@@ -220,7 +222,7 @@ public partial class ScanViewModel : ObservableObject
         OverlayDetail = detail;
         OverlayVisible = true;
 
-        _ = HideAfterAsync(duration, cts.Token);
+        if (duration is { } d) _ = HideAfterAsync(d, cts.Token);
     }
 
     async Task HideAfterAsync(TimeSpan duration, CancellationToken ct)
