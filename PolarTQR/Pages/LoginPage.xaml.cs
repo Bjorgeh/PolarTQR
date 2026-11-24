@@ -9,6 +9,11 @@ public partial class LoginPage : ContentPage
     readonly ScannerApi _api;
     readonly SettingsStore _settings;
     bool _working;
+    // Servervalget er skjult: 7 trykk på logoen åpner det (som utviklermenyer på Android).
+    // Telleren nullstilles hvis det går mer enn 2 sekunder mellom to trykk.
+    const int ServerTaps = 7;
+    int _logoTaps;
+    DateTime _lastLogoTap;
 
     public LoginPage(App app, ScannerApi api, SettingsStore settings, string? message, bool canRetry)
     {
@@ -18,7 +23,7 @@ public partial class LoginPage : ContentPage
         _settings = settings;
         Email.Text = settings.LastEmail;
         RetryButton.IsVisible = canRetry;
-        ServerButton.Text = settings.ServerLabel;
+        UpdateServerButton();
         if (message is not null) ShowStatus(message);
     }
 
@@ -73,7 +78,31 @@ public partial class LoginPage : ContentPage
 
     async void OnChangeServer(object? sender, EventArgs e)
     {
-        if (await _settings.PromptServerAsync(this)) ServerButton.Text = _settings.ServerLabel;
+        if (await _settings.PromptServerAsync(this)) UpdateServerButton();
+    }
+
+    /// <summary>Knappen vises bare når appen står på en testserver, så det er tydelig og lett å bytte tilbake.</summary>
+    void UpdateServerButton()
+    {
+        ServerButton.Text = _settings.ServerLabel;
+        ServerButton.IsVisible = _settings.IsCustomServer;
+    }
+
+    async void OnLogoTapped(object? sender, TappedEventArgs e)
+    {
+        var now = DateTime.UtcNow;
+        if (now - _lastLogoTap > TimeSpan.FromSeconds(2)) _logoTaps = 0;
+        _lastLogoTap = now;
+        _logoTaps++;
+        var left = ServerTaps - _logoTaps;
+        if (left > 0)
+        {
+            if (left <= 3) ShowStatus(left == 1 ? "1 trykk til for å velge server." : $"{left} trykk til for å velge server.");
+            return;
+        }
+        _logoTaps = 0;
+        HideStatus();
+        if (await _settings.PromptServerAsync(this)) UpdateServerButton();
     }
 
     void SetBusy(bool busy)
@@ -88,4 +117,6 @@ public partial class LoginPage : ContentPage
         StatusBox.IsVisible = true;
         Status.Text = text;
     }
+
+    void HideStatus() => StatusBox.IsVisible = false;
 }

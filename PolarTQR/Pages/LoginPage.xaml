@@ -20,7 +20,11 @@
 
         <ScrollView>
             <VerticalStackLayout Padding="24,72,24,24" Spacing="10" MaximumWidthRequest="480">
-                <Image Source="logo_mark.png" WidthRequest="96" HeightRequest="96" HorizontalOptions="Center" />
+                <Image Source="logo_mark.png" WidthRequest="96" HeightRequest="96" HorizontalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLogoTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
                 <Label Text="PolarTQR" FontSize="34" FontFamily="OpenSansSemibold" TextColor="White" HorizontalOptions="Center" Margin="0,8,0,0" />
                 <Label Text="Billettkontroll for adgangsvakter" FontSize="15" TextColor="{StaticResource Muted}" HorizontalOptions="Center" Margin="0,0,0,28" />
 
@@ -44,7 +48,8 @@
                 <Button x:Name="RetryButton" Text="Prøv igjen" IsVisible="False" Clicked="OnRetry" Style="{StaticResource SecondaryButton}" />
 
                 <Button Text="Fått invitasjon eller glemt passord?" Clicked="OnActivate" Style="{StaticResource SecondaryButton}" Margin="0,10,0,0" />
-                <Button x:Name="ServerButton" Clicked="OnChangeServer" Style="{StaticResource LinkButton}" Margin="0,12,0,0" />
+                <!-- Vises bare på testserver; ellers åpnes servervalget med 7 trykk på logoen -->
+                <Button x:Name="ServerButton" Clicked="OnChangeServer" Style="{StaticResource LinkButton}" Margin="0,12,0,0" IsVisible="False" />
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
