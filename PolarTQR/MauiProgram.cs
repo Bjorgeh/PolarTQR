@@ -23,6 +23,15 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        // Tekstfelt uten Androids understrek: feltene får egen avrundet ramme (stilen «Field»)
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.BackgroundTintList =
+                Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+        });
+
         builder.Services.AddSingleton<ScannerApi>();
         builder.Services.AddSingleton<SettingsStore>();
 

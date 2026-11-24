@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Oppstartsbilde: samme merke som appikonet (skanneramme med hake) på bakgrunnsfargen #0F172A fra prosjektfilen. -->
+<svg width="456" height="456" viewBox="0 0 456 456" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#1EC8A5" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M118 168 V136 a18 18 0 0 1 18 -18 H168"/>
+    <path d="M288 118 H320 a18 18 0 0 1 18 18 V168"/>
+    <path d="M338 288 V320 a18 18 0 0 1 -18 18 H288"/>
+    <path d="M168 338 H136 a18 18 0 0 1 -18 -18 V288"/>
+  </g>
+  <path d="M170 232 L210 272 L290 188" fill="none" stroke="#FFFFFF" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

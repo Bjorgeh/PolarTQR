@@ -41,6 +41,8 @@ public sealed class Ticket
 
     public bool IsCancelled => Status == "cancelled";
     public bool IsCheckedIn => CheckedInAt is not null;
+    /// <summary>Initialer til avatar i søkeresultatet.</summary>
+    public string Initials => string.Concat(HolderName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(w => char.ToUpperInvariant(w[0])));
     public string StateText => IsCancelled ? "Kansellert"
         : IsCheckedIn ? $"Inne {CheckedInAt:HH:mm}" : "Ikke sjekket inn";
 }
@@ -98,6 +100,10 @@ public sealed class StaffEvent
     public DateTime? EndDate { get; set; }
 
     public string When => StartDate is { } s ? s.ToString("dddd d. MMM 'kl.' HH:mm") : "";
+    /// <summary>Datomerket på kortet: dag og forkortet måned.</summary>
+    public string Day => StartDate?.ToString("dd") ?? "";
+    public string Month => StartDate?.ToString("MMM").TrimEnd('.').ToUpperInvariant() ?? "";
+    public string TimeText => StartDate is { } s ? s.ToString("dddd 'kl.' HH:mm") : "";
     public bool IsOngoing => StartDate <= DateTime.Now && EndDate >= DateTime.Now;
 }
 

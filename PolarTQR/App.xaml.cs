@@ -137,7 +137,7 @@ public partial class App : Application
 
     static NavigationPage Nav(Page root) => new(root)
     {
-        BarBackgroundColor = Color.FromArgb("#0F172A"),
+        BarBackgroundColor = Color.FromArgb("#0B1220"),
         BarTextColor = Colors.White,
     };
 

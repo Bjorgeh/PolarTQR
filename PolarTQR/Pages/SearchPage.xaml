@@ -7,39 +7,58 @@
              Title="Søk gjest"
              BackgroundColor="{StaticResource Ink}">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
-        <Entry x:Name="Query" Grid.Row="0" Placeholder="Navn eller e-post" TextChanged="OnQueryChanged"
-               ReturnType="Search" ClearButtonVisibility="WhileEditing" FontSize="18" />
-        <Label x:Name="Hint" Grid.Row="1" TextColor="{StaticResource Muted}" FontSize="14"
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16,12,16,0" RowSpacing="10">
+        <Border Grid.Row="0" Style="{StaticResource Field}" Padding="14,2">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                <Label Text="🔍" FontSize="18" VerticalOptions="Center" />
+                <Entry x:Name="Query" Grid.Column="1" Placeholder="Navn eller e-post" TextChanged="OnQueryChanged"
+                       ReturnType="Search" ClearButtonVisibility="WhileEditing" FontSize="17"
+                       TextColor="White" PlaceholderColor="#64748B" />
+            </Grid>
+        </Border>
+        <Label x:Name="Hint" Grid.Row="1" TextColor="{StaticResource Muted}" FontSize="13" Margin="4,0,0,4"
                Text="Skriv minst to bokstaver. Brukes når gjesten ikke har billetten på mobilen." />
 
         <CollectionView x:Name="Results" Grid.Row="2" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Ticket">
-                    <Border Margin="0,4" Padding="14,12" StrokeThickness="0" BackgroundColor="{StaticResource Surface}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12" />
-                        </Border.StrokeShape>
+                    <Border Style="{StaticResource Card}" Margin="0,5" Padding="14,12">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnTicketTapped" CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                            <VerticalStackLayout Spacing="2">
-                                <Label Text="{Binding HolderName}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="White" />
-                                <Label Text="{Binding HolderEmail}" FontSize="14" TextColor="{StaticResource Muted}" />
-                                <Label Text="{Binding TicketTypeName}" FontSize="14" TextColor="{StaticResource Muted}" />
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <!-- Initialer -->
+                            <Border WidthRequest="44" HeightRequest="44" StrokeThickness="0" StrokeShape="RoundRectangle 22"
+                                    BackgroundColor="{StaticResource SurfaceHigh}" VerticalOptions="Center">
+                                <Label Text="{Binding Initials}" FontSize="15" FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource Accent}" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                <Label Text="{Binding HolderName}" FontSize="17" FontFamily="OpenSansSemibold" TextColor="White" />
+                                <Label Text="{Binding TicketTypeName}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                <Label Text="{Binding HolderEmail}" FontSize="12" TextColor="#64748B" LineBreakMode="TailTruncation" />
                             </VerticalStackLayout>
-                            <Label Grid.Column="1" Text="{Binding StateText}" FontSize="14" VerticalOptions="Center"
-                                   TextColor="{StaticResource Accent}">
-                                <Label.Triggers>
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsCheckedIn}" Value="True">
-                                        <Setter Property="TextColor" Value="#FBBF24" />
+                            <Border Grid.Column="2" Style="{StaticResource Pill}" BackgroundColor="#0F3D35" VerticalOptions="Center">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsCheckedIn}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#3B2A07" />
                                     </DataTrigger>
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsCancelled}" Value="True">
-                                        <Setter Property="TextColor" Value="#F87171" />
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsCancelled}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#3F1414" />
                                     </DataTrigger>
-                                </Label.Triggers>
-                            </Label>
+                                </Border.Triggers>
+                                <Label Text="{Binding StateText}" FontSize="12" FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource Accent}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsCheckedIn}" Value="True">
+                                            <Setter Property="TextColor" Value="#FBBF24" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsCancelled}" Value="True">
+                                            <Setter Property="TextColor" Value="#F87171" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
