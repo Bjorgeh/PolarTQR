@@ -50,9 +50,11 @@ public sealed class Ticket
 /// <summary>Svar fra POST /blog_tickets/scanner/check_in (både 200, 404 og 409).</summary>
 public sealed class CheckInResponse
 {
-    /// <summary>ok, not_found, wrong_event, cancelled eller already_checked_in.</summary>
+    /// <summary>ok, not_found, replaced, wrong_event, cancelled eller already_checked_in.</summary>
     public string Result { get; set; } = "";
     public string? Error { get; set; }
+    /// <summary>Ved result=replaced: billetten er overført, og dette er navnet på den nye innehaveren.</summary>
+    public string? CurrentHolder { get; set; }
     public Ticket? Ticket { get; set; }
     public TicketStats? Stats { get; set; }
 }
