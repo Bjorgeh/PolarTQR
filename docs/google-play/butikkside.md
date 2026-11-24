@@ -28,7 +28,7 @@ Slik fungerer det
 
 Nyttig i døra
 • Søk gjest: finn en billett på navn eller e-post hvis QR-koden ikke kan skannes
-• Angre siste: gjør om en innsjekk som ble feil
+• Angre: gjør om en innsjekk som ble feil
 • Lys: slå på lommelykten når det er mørkt
 
 Personvern
@@ -72,12 +72,12 @@ PolarTQR requires a staff account from an organiser who uses PolarCode. Organisi
 ## Grafikk
 - Appikon 512×512: `play-ikon-512.png` (samme motiv som appikonet)
 - Banner 1024×500: `banner-1024x500.png`
-- Skjermbilder telefon (1080×2400): `skjermbilder/s1–s5` – innlogging, velg arrangement, skanning, gjestesøk, «Velkommen!» (fiktive navn)
+- Skjermbilder telefon (1080×1920, 9:16 – Play godtar ikke 20:9): `skjermbilder/s1–s5` – innlogging, velg arrangement, skanning, gjestesøk, «Velkommen!» (fiktive navn)
 
 ## App access (til Googles gjennomgang)
 All funksjonalitet krever innlogging. Testkonto (vakt på demonettstedet Nordlys IL, arrangementet «Testarrangement for Google Play» (31.12.2027, skjult)):
 e-post og passord ligger i `C:\Users\19abh\.polartqr-signing\google-review.txt` (ikke i git).
 Instruksjon til Google (lim inn):
 ```
-Sign in with the test staff account below. Choose the event "Testarrangement for Google Play". To test check-in without a physical ticket, tap "Søk gjest" (guest search), search for "Google" and check in one of the three test tickets ("Google Testgjest 1–3"). "Angre siste" undoes the last check-in.
+Sign in with the test staff account below. Choose the event "Testarrangement for Google Play". To test check-in without a physical ticket, tap "Søk gjest" (guest search), search for "Google" and check in one of the three test tickets ("Google Testgjest 1–3"). "Angre" undoes the last check-in.
 ```
