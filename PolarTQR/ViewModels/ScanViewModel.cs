@@ -124,6 +124,14 @@ public partial class ScanViewModel : ObservableObject
                 case "wrong_event":
                     ShowRejected("Feil arrangement", "Billetten gjelder et annet arrangement.");
                     break;
+                case "replaced":
+                    // Billetten er overført til en annen og har fått ny QR-kode. Den gamle (f.eks. et
+                    // skjermbilde fra selgeren) slipper ikke inn.
+                    ShowRejected("Gammel QR-kode",
+                        string.IsNullOrEmpty(r.CurrentHolder)
+                            ? "Billetten er overført til en annen og har fått ny QR-kode."
+                            : $"Billetten er overført til {r.CurrentHolder} og har fått ny QR-kode. Be om den nye billetten.");
+                    break;
                 default:
                     ShowRejected("Ugyldig billett", "Fant ingen billett med denne koden.");
                     break;
