@@ -60,4 +60,6 @@ public sealed class SettingsStore
     }
 
     public string ServerLabel => BaseUrl == ScannerApi.DefaultBaseUrl ? "Server: standard" : "Server: " + BaseUrl;
+    /// <summary>Appen bruker en annen server enn standard (testing).</summary>
+    public bool IsCustomServer => BaseUrl != ScannerApi.DefaultBaseUrl;
 }
