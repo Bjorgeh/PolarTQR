@@ -43,9 +43,15 @@
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
-    <!-- PolarTQR -->
-    <Color x:Key="Ink">#0F172A</Color>
-    <Color x:Key="Surface">#1E293B</Color>
+    <!-- PolarTQR: samme farger som appikonet (marineblå + PolarCode-grønnblå) -->
+    <Color x:Key="Ink">#0B1220</Color>
+    <Color x:Key="Surface">#141E33</Color>
+    <Color x:Key="SurfaceHigh">#1C2943</Color>
+    <Color x:Key="Line">#263553</Color>
     <Color x:Key="Muted">#94A3B8</Color>
-    <Color x:Key="Accent">#38BDF8</Color>
+    <Color x:Key="Accent">#1EC8A5</Color>
+    <Color x:Key="AccentInk">#052E26</Color>
+    <Color x:Key="Ok">#16A34A</Color>
+    <Color x:Key="Warn">#F59E0B</Color>
+    <Color x:Key="Bad">#EF4444</Color>
 </ResourceDictionary>

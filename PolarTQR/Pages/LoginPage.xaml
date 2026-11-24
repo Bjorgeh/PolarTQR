@@ -6,31 +6,46 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource Ink}">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="24,64,24,24" Spacing="14">
-            <Label Text="PolarTQR" FontSize="36" FontFamily="OpenSansSemibold" TextColor="White" />
-            <Label Text="Billettkontroll for adgangsvakter" FontSize="16" TextColor="{StaticResource Muted}" Margin="0,0,0,24" />
+    <Grid>
+        <!-- Svak glød bak logoen, i aksentfargen -->
+        <Ellipse WidthRequest="420" HeightRequest="420" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,-140,0,0"
+                 InputTransparent="True" Opacity="0.18">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="{StaticResource Accent}" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
 
-            <Label Text="E-post" TextColor="{StaticResource Muted}" FontSize="14" />
-            <Entry x:Name="Email" Keyboard="Email" ReturnType="Next" FontSize="18"
-                   IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" Completed="OnEmailCompleted" />
-            <Label Text="Passord" TextColor="{StaticResource Muted}" FontSize="14" />
-            <Entry x:Name="Password" IsPassword="True" ReturnType="Go" FontSize="18" Completed="OnLogin" />
+        <ScrollView>
+            <VerticalStackLayout Padding="24,72,24,24" Spacing="10" MaximumWidthRequest="480">
+                <Image Source="logo_mark.png" WidthRequest="96" HeightRequest="96" HorizontalOptions="Center" />
+                <Label Text="PolarTQR" FontSize="34" FontFamily="OpenSansSemibold" TextColor="White" HorizontalOptions="Center" Margin="0,8,0,0" />
+                <Label Text="Billettkontroll for adgangsvakter" FontSize="15" TextColor="{StaticResource Muted}" HorizontalOptions="Center" Margin="0,0,0,28" />
 
-            <Border x:Name="StatusBox" IsVisible="False" StrokeThickness="0" Padding="14,10"
-                    BackgroundColor="{StaticResource Surface}">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10" />
-                </Border.StrokeShape>
-                <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
-            </Border>
+                <Label Text="E-post" Style="{StaticResource FieldLabel}" />
+                <Border Style="{StaticResource Field}">
+                    <Entry x:Name="Email" Keyboard="Email" ReturnType="Next" FontSize="17" TextColor="White"
+                           PlaceholderColor="#64748B" Placeholder="navn@eksempel.no"
+                           IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" Completed="OnEmailCompleted" />
+                </Border>
+                <Label Text="Passord" Style="{StaticResource FieldLabel}" />
+                <Border Style="{StaticResource Field}">
+                    <Entry x:Name="Password" IsPassword="True" ReturnType="Go" FontSize="17" TextColor="White" Completed="OnLogin" />
+                </Border>
 
-            <Button x:Name="LoginButton" Text="Logg inn" Clicked="OnLogin" Style="{StaticResource PrimaryButton}" Margin="0,8,0,0" />
-            <ActivityIndicator x:Name="Busy" IsRunning="False" IsVisible="False" Color="{StaticResource Accent}" />
-            <Button x:Name="RetryButton" Text="Prøv igjen" IsVisible="False" Clicked="OnRetry" Style="{StaticResource SecondaryButton}" />
+                <Border x:Name="StatusBox" IsVisible="False" Style="{StaticResource Card}" Padding="14,12" Margin="0,6,0,0">
+                    <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
+                </Border>
 
-            <Button Text="Fått invitasjon eller glemt passord?" Clicked="OnActivate" Style="{StaticResource SecondaryButton}" Margin="0,16,0,0" />
-            <Button x:Name="ServerButton" Clicked="OnChangeServer" Style="{StaticResource LinkButton}" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <Button x:Name="LoginButton" Text="Logg inn" Clicked="OnLogin" Style="{StaticResource PrimaryButton}" Margin="0,18,0,0" />
+                <ActivityIndicator x:Name="Busy" IsRunning="False" IsVisible="False" Color="{StaticResource Accent}" />
+                <Button x:Name="RetryButton" Text="Prøv igjen" IsVisible="False" Clicked="OnRetry" Style="{StaticResource SecondaryButton}" />
+
+                <Button Text="Fått invitasjon eller glemt passord?" Clicked="OnActivate" Style="{StaticResource SecondaryButton}" Margin="0,10,0,0" />
+                <Button x:Name="ServerButton" Clicked="OnChangeServer" Style="{StaticResource LinkButton}" Margin="0,12,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

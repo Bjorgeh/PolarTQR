@@ -11,44 +11,48 @@
         <ToolbarItem Text="Logg ut" Order="Secondary" Clicked="OnLogout" />
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
-        <Label x:Name="Hello" Grid.Row="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="White" />
-        <Border x:Name="StatusBox" Grid.Row="1" IsVisible="False" StrokeThickness="0" Padding="14,10"
-                BackgroundColor="{StaticResource Surface}">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10" />
-            </Border.StrokeShape>
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="20,16,20,0" RowSpacing="4">
+        <Label x:Name="Hello" Grid.Row="0" FontSize="26" FontFamily="OpenSansSemibold" TextColor="White" />
+        <Label Grid.Row="1" Text="Velg arrangementet du jobber på i dag." FontSize="15" TextColor="{StaticResource Muted}" Margin="0,0,0,12" />
+        <Border x:Name="StatusBox" Grid.Row="2" IsVisible="False" Style="{StaticResource Card}" Padding="14,12" Margin="0,0,0,8">
             <Label x:Name="Status" TextColor="White" FontSize="15" LineBreakMode="WordWrap" />
         </Border>
 
-        <RefreshView x:Name="Refresh" Grid.Row="2" Refreshing="OnRefresh" RefreshColor="{StaticResource Accent}">
+        <RefreshView x:Name="Refresh" Grid.Row="3" Refreshing="OnRefresh" RefreshColor="{StaticResource Accent}">
             <CollectionView x:Name="Events" SelectionMode="None">
                 <CollectionView.EmptyView>
-                    <Label Margin="0,24" TextColor="{StaticResource Muted}" FontSize="16" HorizontalTextAlignment="Center"
-                           Text="Du har ingen kommende arrangementer å skanne. Kontakt arrangøren hvis det er feil. Dra ned for å oppdatere." />
+                    <VerticalStackLayout Margin="0,48" Spacing="10">
+                        <Label Text="📅" FontSize="44" HorizontalOptions="Center" />
+                        <Label TextColor="{StaticResource Muted}" FontSize="15" HorizontalTextAlignment="Center"
+                               Text="Du har ingen kommende arrangementer å skanne. Kontakt arrangøren hvis det er feil. Dra ned for å oppdatere." />
+                    </VerticalStackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:StaffEvent">
-                        <Border Margin="0,6" Padding="16,14" StrokeThickness="0" BackgroundColor="{StaticResource Surface}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12" />
-                            </Border.StrokeShape>
+                        <Border Style="{StaticResource Card}" Margin="0,6" Padding="14">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnEventTapped" CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="{Binding EventName}" FontSize="19" FontFamily="OpenSansSemibold" TextColor="White" />
-                                    <Label Text="{Binding When}" FontSize="14" TextColor="{StaticResource Muted}" />
-                                    <Label Text="{Binding Site}" FontSize="13" TextColor="{StaticResource Muted}" />
-                                </VerticalStackLayout>
-                                <Border Grid.Column="1" IsVisible="{Binding IsOngoing}" BackgroundColor="#16A34A" StrokeThickness="0"
-                                        Padding="10,4" VerticalOptions="Center">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="8" />
-                                    </Border.StrokeShape>
-                                    <Label Text="Pågår" TextColor="White" FontSize="13" FontFamily="OpenSansSemibold" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <!-- Datomerke -->
+                                <Border WidthRequest="58" HeightRequest="62" StrokeThickness="0" BackgroundColor="{StaticResource SurfaceHigh}"
+                                        StrokeShape="RoundRectangle 14" VerticalOptions="Center">
+                                    <VerticalStackLayout VerticalOptions="Center" Spacing="-4">
+                                        <Label Text="{Binding Month}" FontSize="12" FontFamily="OpenSansSemibold"
+                                               TextColor="{StaticResource Accent}" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Day}" FontSize="24" FontFamily="OpenSansSemibold"
+                                               TextColor="White" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
                                 </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding EventName}" FontSize="17" FontFamily="OpenSansSemibold" TextColor="White" LineBreakMode="WordWrap" />
+                                    <Label Text="{Binding TimeText}" FontSize="14" TextColor="{StaticResource Muted}" />
+                                    <Border IsVisible="{Binding IsOngoing}" Style="{StaticResource Pill}" BackgroundColor="#14532D"
+                                            HorizontalOptions="Start" Margin="0,4,0,0">
+                                        <Label Text="● Pågår nå" TextColor="#4ADE80" FontSize="12" FontFamily="OpenSansSemibold" />
+                                    </Border>
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2" Text="›" FontSize="30" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
                             </Grid>
                         </Border>
                     </DataTemplate>

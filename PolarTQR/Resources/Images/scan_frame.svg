@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sikteramme på skannesiden: samme hjørner som appikonet -->
+<svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#1EC8A5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 56 V30 a24 24 0 0 1 24 -24 H56"/>
+    <path d="M204 6 H230 a24 24 0 0 1 24 24 V56"/>
+    <path d="M254 204 V230 a24 24 0 0 1 -24 24 H204"/>
+    <path d="M56 254 H30 a24 24 0 0 1 -24 -24 V204"/>
+  </g>
+</svg>
