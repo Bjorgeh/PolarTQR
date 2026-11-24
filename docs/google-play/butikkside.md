@@ -10,7 +10,7 @@ Personvern: https://polarcode.solutions/personvern · Vilkår: https://polarcode
 
 **Kort beskrivelse** (maks 80):
 ```
-Billettkontroll for arrangører og vakter: skann QR-billetter og sjekk inn gjester.
+Billettkontroll for vakter: skann QR-billetter og sjekk inn gjester i døra.
 ```
 
 **Full beskrivelse** (maks 4000):
