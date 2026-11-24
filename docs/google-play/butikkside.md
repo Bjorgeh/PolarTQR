@@ -74,9 +74,9 @@ PolarTQR requires a staff account from an organiser who uses PolarCode. Organisi
 - Skjermbilder telefon (1080×2400): `skjermbilder/s1–s5` – innlogging, velg arrangement, skanning, gjestesøk, «Velkommen!» (fiktive navn)
 
 ## App access (til Googles gjennomgang)
-All funksjonalitet krever innlogging. Testkonto (vakt på demonettstedet Nordlys IL, arrangementet «Nordlysløpet»):
+All funksjonalitet krever innlogging. Testkonto (vakt på demonettstedet Nordlys IL, arrangementet «Testarrangement for Google Play» (31.12.2027, skjult)):
 e-post og passord ligger i `C:\Users\19abh\.polartqr-signing\google-review.txt` (ikke i git).
 Instruksjon til Google (lim inn):
 ```
-Sign in with the test staff account below. Choose the event "Nordlysløpet 5 og 10 km". To test check-in without a physical ticket, tap "Søk gjest" (guest search), search for "Google" and check in one of the three test tickets ("Google Testgjest 1–3"). "Angre siste" undoes the last check-in.
+Sign in with the test staff account below. Choose the event "Testarrangement for Google Play". To test check-in without a physical ticket, tap "Søk gjest" (guest search), search for "Google" and check in one of the three test tickets ("Google Testgjest 1–3"). "Angre siste" undoes the last check-in.
 ```
